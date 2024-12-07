@@ -1,0 +1,13 @@
+{
+  "MONGO_CONNECTION": {
+    "host": "",
+    "port": 27017,
+    "db_name": "",
+    "collection": "",
+    "username": "",
+    "password": "",
+    "auth_db": ""
+  },
+  "REPORT_FOLDER": "examples/outputs",
+  "DATA_FOLDER": "examples/data.csv"
+}
