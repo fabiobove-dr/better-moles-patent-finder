@@ -1,3 +1,11 @@
+# Additional
+.idea
+dataset
+.env
+reports
+report.csv
+/configs.json
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
