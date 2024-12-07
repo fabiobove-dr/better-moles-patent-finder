@@ -1,6 +1,6 @@
 import pytest
 
-from src.mongo.mongo_configs import MongoConnectionConfig
+from mongo.mongo_configs import MongoConnectionConfig
 
 
 @pytest.mark.parametrize(
@@ -86,7 +86,7 @@ def test_get_connection_uri():
         password="pass",
         auth_db="admin",
     )
-    assert config.get_connection_uri() == "mongodb://user:pass@localhost:27017/test_db"
+    assert config.get_connection_uri() == "mongodb://user:pass@localhost:27017/?authSource=admin"
 
 
 if __name__ == "__main__":

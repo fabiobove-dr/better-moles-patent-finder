@@ -1,9 +1,10 @@
 from unittest.mock import patch, MagicMock
 
 import pytest
-from src.mongo.mongo_configs import MongoConnectionConfig
-from src.mongo.mongo_connector import MongoConnector
 from pymongo.errors import ConnectionFailure
+
+from mongo.mongo_configs import MongoConnectionConfig
+from mongo.mongo_connector import MongoConnector
 
 
 @pytest.fixture
@@ -19,7 +20,12 @@ def mock_config():
     )
 
 
-@patch("src.mongo.mongo_connector.MongoClient")
+@pytest.fixture
+def mock_mongo_client():
+    with patch("mongo.mongo_connector.MongoClient") as mock:
+        yield mock
+
+
 def test_connect_success(mock_mongo_client, mock_config):
     mock_client_instance = MagicMock()
     mock_mongo_client.return_value = mock_client_instance
@@ -32,7 +38,7 @@ def test_connect_success(mock_mongo_client, mock_config):
     assert connector.collection == connector.db[mock_config.collection]
 
 
-@patch("src.mongo.mongo_connector.MongoClient")
+@patch("mongo.mongo_connector.MongoClient")
 def test_connect_failure(mock_mongo_client, mock_config):
     mock_mongo_client.side_effect = ConnectionFailure("Failed to connect")
     connector = MongoConnector(mock_config)
@@ -41,7 +47,7 @@ def test_connect_failure(mock_mongo_client, mock_config):
         connector.connect()
 
 
-@patch("src.mongo.mongo_connector.MongoClient")
+@patch("mongo.mongo_connector.MongoClient")
 def test_close(mock_mongo_client, mock_config):
     mock_client_instance = MagicMock()
     mock_mongo_client.return_value = mock_client_instance
