@@ -15,6 +15,7 @@ dependencies = [
     "pandas==2.2.3",
     "pymongo==4.9",
     "rdkit==2024.3.6",
+    "tqdm==4.67.1",
 ]
 
 # Define optional dependencies like testing
