@@ -7,7 +7,7 @@ A tool designed to enhance patent discovery by leveraging MongoDB for efficient 
 
 [![Coverage](https://codecov.io/github/fabiobove-dr/better-moles-patent-finder/coverage.svg?branch=main)](https://codecov.io/gh/tacclab/bio_dataset_manager)  
 [![PyPI Latest Release](https://img.shields.io/pypi/v/better-moles-patent-finder.svg)](https://pypi.org/project/better-moles-patent-finder/)  
-![Unit Tests](https://github.com/fabiobove-dr/better-moles-patent-finder/actions/workflows/main.yml/badge.svg)<br>
+![Unit Tests](https://github.com/fabiobove-dr/better-moles-patent-finder/actions/workflows/codecov.yml/badge.svg)<br>
 [![Powered by Fabio](https://img.shields.io/badge/powered%20by-Fabio-orange.svg?style=flat&colorA=E1523D&colorB=007D8A)]()  
 [![License](https://img.shields.io/github/license/fabiobove-dr/better-moles-patent-finder.svg)](https://github.com/tacclab/bio_dataset_manager/blob/main/LICENSE)<br>
 
