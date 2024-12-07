@@ -1,8 +1,10 @@
 # Additional
 .idea
-dataset/*
+dataset
 .env
-
+reports
+report.csv
+config.json
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
