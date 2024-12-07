@@ -42,6 +42,7 @@ class MongoConnector:
                 self.client = MongoClient(self.config.get_connection_uri())
                 self.db = self.client[self.config.db_name]
                 self.collection = self.db[self.config.collection]
+                print(f"Connected to MongoDB: {self.config.get_connection_uri()}")
             except Exception as e:
                 raise ConnectionError(f"Error connecting to MongoDB: {e}")
 

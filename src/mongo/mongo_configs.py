@@ -25,5 +25,5 @@ class MongoConnectionConfig:
                 raise ValueError(f"Missing parameter: {param}")
 
     def get_connection_uri(self) -> str:
-        auth = f"{self.username}:{self.password}@" if self.username and self.password else ""
-        return f"mongodb://{auth}{self.host}:{self.port}/{self.db_name}"
+        auth = f"{self.username}:{self.password}" if self.username and self.password else ""
+        return f"mongodb://{auth}@{self.host}:{self.port}/?authSource={self.auth_db}"
