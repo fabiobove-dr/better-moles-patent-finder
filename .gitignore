@@ -4,7 +4,7 @@ dataset
 .env
 reports
 report.csv
-configs.json
+/configs.json
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

@@ -1,11 +1,8 @@
+import argparse
 import json
 import os
 import sys
 from pathlib import Path
-from concurrent.futures import ThreadPoolExecutor
-
-from tqdm import tqdm  # For progress tracking
-import pandas as pd
 
 from mongo.mongo_configs import MongoConnectionConfig
 from mongo.mongo_connector import MongoConnector
@@ -13,7 +10,7 @@ from patent_finder.patent_finder_mongo_db import PatentFinderMongoDB
 from utils.common_utils import add_patents_to_df, save_df_to_csv, load_data_from_csv
 
 
-def main(config_path: str):
+def find(config_path: str):
     """
     Main function to process the input configuration and run the pipeline.
 
@@ -93,11 +90,20 @@ def main(config_path: str):
         print("✅ MongoDB connection closed.")
 
 
-if __name__ == "__main__":
-    if len(sys.argv) != 2:
-        print("❌ Usage: python script.py <config_path>")
-        sys.exit(1)
+def main():
+    """
+    Main function to run the pipeline.
+    """
+    args = parse_args()
+    find(args.config_path)
 
-    config_path = sys.argv[1]
-    main(config_path)
 
+def parse_args():
+    parser = argparse.ArgumentParser(description="Better Molecules Patent Finder")
+    parser.add_argument(
+        '--config-path',
+        type=str,
+        required=True,
+        help='Path to the configuration file'
+    )
+    return parser.parse_args()
