@@ -32,6 +32,24 @@ def test_load_from_json(json_config, expected_values):
         assert getattr(config, key) == expected
 
 
+def test_load_from_dict():
+    config = MongoConnectionConfig()
+    config.load_from_dict(
+        {"host": "localhost",
+         "port": 27017,
+         "db_name": "test_db",
+         "collection": "test_collection",
+         "username": "user",
+         "password": "pass",
+         "auth_db": "admin"
+         }
+    )
+
+    assert config.host == "localhost"
+    assert config.db_name == "test_db"
+    assert config.port == 27017
+
+
 @pytest.mark.parametrize(
     "config_values, should_raise, missing_param",
     [
