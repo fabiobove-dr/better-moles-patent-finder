@@ -2,11 +2,11 @@ from unittest.mock import MagicMock, patch
 
 import pandas as pd
 import pytest
-from pymongo.synchronous.collection import Collection
-
-from utils.common_types import SmilesQuery
-from mongo.mongo_connector import MongoConnector
 from patent_finder.patent_finder_mongo_db import PatentFinderMongoDB
+from pymongo.synchronous.collection import Collection
+from utils.common_types import SmilesQuery
+
+from src.mongo.mongo_connector import MongoConnector
 
 
 # Mock the `cast_smiles_for_query` function

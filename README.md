@@ -90,13 +90,10 @@ better-moles-patent-finder --config-path /path/to/config_file.yaml
 ```
 
 ```python
-from better_moles_patent_finder import PatentFinder
+from patent_finder.patent_finder_mongo_db import PatentFinderMongoDB
 
 # Create a PatentFinder instance
-pf = PatentFinder()
-
-# Search for a patent by ID
-result = pf.search_by_patent_id('US20200136057A1')
+pf = PatentFinderMongoDB()
 
 # Search for patents by molecule structure (SMILES)
 result = pf.search_by_smiles('Brc1cc(-c2ccccc2)nc(-c2ccc3c4ccccc4c4ccccc4c3c2)c1')

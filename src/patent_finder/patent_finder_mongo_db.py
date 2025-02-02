@@ -1,17 +1,35 @@
 from concurrent.futures import ThreadPoolExecutor
-from pymongo.collection import Collection
+
 import pandas as pd
 from mongo.mongo_connector import MongoConnector
+from pymongo.collection import Collection
 from utils.common_types import SmilesQuery
 from utils.common_utils import cast_smiles_for_query
 
 
 class PatentFinderMongoDB:
-    def __init__(self, smiles_df: pd.DataFrame, mongo_connector: MongoConnector):
-        self.smiles_df = smiles_df
-        self.smiles_list = list(smiles_df['smiles'])
+    def __init__(self, smiles_df: pd.DataFrame | None, mongo_connector: MongoConnector):
+        self.smiles_df = smiles_df if smiles_df is not None else pd.DataFrame({"smiles": []})
+        self.smiles_list = list(self.smiles_df['smiles'])
         self.patents_ids = [[] for _ in range(len(self.smiles_list))]
         self.mongo_connector = mongo_connector
+
+    @staticmethod
+    def get_smiles_patents(query: SmilesQuery, collection: Collection) -> list[str]:
+        try:
+            # Query the database by SMILES and InChIKey using regex for batch processing
+            results = collection.find({
+                "$or": [
+                    {"molecule.smiles": {"$regex": query.smiles, "$options": "i"}},
+                    {"molecule.inchikey": query.inchikey}
+                ]
+            })
+
+            results = list(results)
+            return results
+        except Exception as e:
+            print(f"Error processing query: {query}\n{e}")
+            return []
 
     @staticmethod
     def get_smiles_patents_ids(query: SmilesQuery, collection: Collection) -> list[str]:
@@ -54,4 +72,14 @@ class PatentFinderMongoDB:
             return self.get_smiles_patents_ids(query, self.mongo_connector.collection)
         except ValueError:
             print(f"Error processing SMILES: {smiles}")
+            return []  # Return empty list for invalid SMILES
+
+    def search_by_smiles(self, smiles: str) -> list[str]:
+        """
+        Find all patent IDs for a given SMILES string.
+        """
+        try:
+            query = cast_smiles_for_query(smiles)
+            return self.get_smiles_patents(query, self.mongo_connector.collection)
+        except ValueError:
             return []  # Return empty list for invalid SMILES

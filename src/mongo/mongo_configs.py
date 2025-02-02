@@ -19,6 +19,14 @@ class MongoConnectionConfig:
                     raise TypeError(f"Expected type {expected_type} for '{param}', got {type(value)}")
                 self.__dict__[param] = value
 
+    def load_from_dict(self, dict_config):
+        for param, value in dict_config.items():
+            if param in self.__dict__:
+                expected_type = type(self.__dict__[param])
+                if not isinstance(value, expected_type) and value is not None:
+                    raise TypeError(f"Expected type {expected_type} for '{param}', got {type(value)}")
+                self.__dict__[param] = value
+
     def check_parameters(self):
         for param in self.__dict__.keys():
             if self.__dict__[param] is None:
