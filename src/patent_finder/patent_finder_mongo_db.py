@@ -15,6 +15,23 @@ class PatentFinderMongoDB:
         self.mongo_connector = mongo_connector
 
     @staticmethod
+    def get_smiles_patents(query: SmilesQuery, collection: Collection) -> list[str]:
+        try:
+            # Query the database by SMILES and InChIKey using regex for batch processing
+            results = collection.find({
+                "$or": [
+                    {"molecule.smiles": {"$regex": query.smiles, "$options": "i"}},
+                    {"molecule.inchikey": query.inchikey}
+                ]
+            })
+
+            results = list(results)
+            return results
+        except Exception as e:
+            print(f"Error processing query: {query}\n{e}")
+            return []
+
+    @staticmethod
     def get_smiles_patents_ids(query: SmilesQuery, collection: Collection) -> list[str]:
         try:
             # Query the database by SMILES and InChIKey using regex for batch processing
@@ -63,7 +80,6 @@ class PatentFinderMongoDB:
         """
         try:
             query = cast_smiles_for_query(smiles)
-            return self.get_smiles_patents_ids(query, self.mongo_connector.collection)
+            return self.get_smiles_patents(query, self.mongo_connector.collection)
         except ValueError:
-            print(f"Error processing SMILES: {smiles}")
             return []  # Return empty list for invalid SMILES

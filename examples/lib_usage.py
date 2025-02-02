@@ -17,17 +17,16 @@ if __name__ == '__main__':
     config.load_from_dict(conf_dict)
     mongo = MongoConnector(config)
     mongo.connect()
-
     # create a PatentFinder instance
     pf = PatentFinderMongoDB(
         smiles_df=pd.DataFrame({"smiles": ["Brc1cc(-c2ccccc2)nc(-c2ccc3c4ccccc4c4ccccc4c3c2)c1"]}),  # can be None
         mongo_connector=mongo
     )
-
     # finds all patent IDs for the given SMILES and prints them
-    result = pf.find_all_patents()  # using parallel processing and batch processing
+    results = pf.find_all_patents()  # using parallel processing and batch processing
+    [print(r) for r in results[0]]
+
     other_result = pf.search_by_smiles("Brc1cc(-c2ccccc2)nc(-c2ccc3c4ccccc4c4ccccc4c3c2)c1")  # for single processing
-    [print(r) for r in result]
     print(other_result)
 
     # close the connection
