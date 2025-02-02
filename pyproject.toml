@@ -1,6 +1,6 @@
 [project]
 name = "better-moles-patent-finder"
-dynamic = ["version"]  # This relies on git tags for versioning
+version = "0.1.0"
 authors = [
     { name = "Fabio Bove", email = "fabio.bove.dr@gmail.com" }
 ]
@@ -40,3 +40,25 @@ build-backend = "setuptools.build_meta"
 
 [project.scripts]
 better-moles-patent-finder = "mol_patents_find:main"
+
+
+[tool.setuptools.exclude-package-data]
+"better_moles_patent_finder" = [
+    "*.log",
+    "*.pyc",
+    "__pycache__/*",
+    "tests/*",
+    "docs/*",
+    "examples/*",
+]
+
+[tool.coverage.run]
+omit = [
+    "*tests*",       # Exclude all test files
+    "commons.py",    # Exclude commons.py
+    "*config.py",    # Exclude any file ending with config.py
+    "!src/commons.py",  # Include src/commons.py explicitly
+    "src/logger/*",  # Exclude all files in src/logger/
+    "app.py",        # Exclude app.py
+    "__init__.py"    # Exclude __init__.py
+]
