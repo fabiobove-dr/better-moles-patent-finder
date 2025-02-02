@@ -89,11 +89,32 @@ You can run the project as a script by passing a configuration file path:
 better-moles-patent-finder --config-path /path/to/config_file.yaml
 ```
 
+
+Ensure MongoDB is running and accessible. The default connection string is configured in the project. You can modify it if necessary in the mongo_connector.py file.
 ```python
+from mongo.mongo_connector import MongoConnector
+from mongo.mongo_configs import MongoConnectionConfig
+
+config = MongoConnectionConfig()
+config.load_from_dict({
+    "host": "localhost",
+    "port": 27017,
+    "db_name": "patents",
+    "collection": "patcid",
+    "username": "root",
+    "password": "example",
+}) 
+# Connect to the MongoDB database
+mongo = MongoConnector(config)
+mongo.connect()
+
+```
+```python
+import pandas as pd
 from patent_finder.patent_finder_mongo_db import PatentFinderMongoDB
 
 # Create a PatentFinder instance
-pf = PatentFinderMongoDB()
+pf = PatentFinderMongoDB(smiles_df=pd.DataFrame({'smiles':['<smiles>']}), mongo_connector=mongo)
 
 # Search for patents by molecule structure (SMILES)
 result = pf.search_by_smiles('Brc1cc(-c2ccccc2)nc(-c2ccc3c4ccccc4c4ccccc4c3c2)c1')
@@ -101,20 +122,6 @@ result = pf.search_by_smiles('Brc1cc(-c2ccccc2)nc(-c2ccc3c4ccccc4c4ccccc4c3c2)c1
 # Print the result
 print(result)
 ```
-
-MongoDB Connection
-
-Ensure MongoDB is running and accessible. The default connection string is configured in the project. You can modify it if necessary in the mongo_connector.py file.
-```python
-from better_moles_patent_finder import MongoConnector
-
-# Connect to the MongoDB database
-mongo = MongoConnector()
-mongo.connect()
-
-# Perform queries and operations
-```
-
 ---
 ## License
 This project is licensed under the terms of the GNU General Public License, Version 3.
